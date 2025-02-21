@@ -1,0 +1,270 @@
+
+<head>
+<meta name="generator" content="HTML Tidy for Linux/x86 (vers 7 December 2008), see www.w3.org" />
+<meta http-equiv="Content-Type" content="text/html; charset=us-ascii" />
+<title>Quiet sun radio flux interpolations</title>
+<base target="_blank" />
+<link rel="stylesheet" type="text/css" href="/css/default.css" />
+<!--#include virtual="/phpinc/ga.htm" -->
+</head>
+<body>
+<!--#include virtual="/phpinc/header.htm" -->
+<h1>Quiet sun radio flux interpolations</h1>
+<p>&nbsp;</p>
+<p>See <a href="https://owenduffy.net/blog/?p=3452">Quiet solar radio flux 
+interpolations calculator</a> for information about changes.</p>
+<p>&nbsp;</p>
+<p>Quiet sun radio noise is often used for measurements of radio receiving systems. The radio flux from the quiet sun
+is a known signal in that it is measured and reported at observatories around the earth, and therefore provides a basis
+of assessment of radio receiving systems.</p>
+<p>This page calculates interpolated recent solar flux data for amateur radio UHF and microwave bands from published
+observations.</p>
+<div align="center">
+<center>
+<table border="2" cellpadding="0" cellspacing="5" width="601">
+<caption>Table 1: Observatories</caption>
+<tr>
+<td width="414"><b>Observatory</b></td>
+<td align="right" width="95"><b>Lat (&deg;)</b></td>
+<td align="right" width="90"><b>Lon (&deg;)</b></td>
+<td align="right" width="246"><b>Nominal observation time (UTC)</b></td>
+</tr>
+<tr>
+<td width="414"><b>Learmonth, Australia</b></td>
+<td align="right" width="95">22.13S</td>
+<td align="right" width="90">114.60E</td>
+<td align="right" width="246">0500&nbsp;</td>
+</tr>
+<tr>
+<td width="414"><b>San Vito, Italy</b></td>
+<td align="right" width="95">40.40N</td>
+<td align="right" width="90">17.43E</td>
+<td align="right" width="246">1200&nbsp;</td>
+</tr>
+<tr>
+<td width="414"><b>Sagamore Hill, North America</b></td>
+<td align="right" width="95">42.38N</td>
+<td align="right" width="90">70.49W</td>
+<td align="right" width="246">1700&nbsp;</td>
+</tr>
+<tr>
+<td width="414"><b>Palehua, Hawaii</b></td>
+<td align="right" width="95">21.24N</td>
+<td align="right" width="90">158.06W</td>
+<td align="right" width="246">2300&nbsp;</td>
+</tr>
+</table>
+</center>
+</div>
+<p>Table 1 shows the nominal times of observations published on the <a href="http://www.noaa.gov/">NOAA</a> site for
+each of the observatories.</p>
+<form method="post" action="qsrfr.php" target="_parent">
+<p><b>Enter Details:</b></p>
+<p>Observatory: <select size="1" name="site" tabindex="1">
+<option>Learmonth</option>
+<option>San Vito</option>
+<option>Sag Hill</option>
+<option>Palehua</option>
+</select></p>
+<p>Date: <input type="text" name="datein" size="16" tabindex="2" /> (dd/mm/yyyy) 
+(optional, must be in the last 7 days)</p>
+<p>Frequencies (MHz): <input type="text" name="fl" size="60" value="432,1296,2300,2400,3300,5650,10368" tabindex=
+"3" />&nbsp;</p>
+<p><input checked="checked" name="dc" tabindex="5" type="checkbox" value="ON">Add 
+[0,0] datapoint</p>
+	<p><input type="checkbox" name="raw" value="ON" tabindex="4" />Echo raw data</p>
+<p><input type="submit" value="Submit" name="B1" /><input type="reset" value="Reset" name="B2" /></p>
+</form>
+<p>An alternate list of frequencies from 100MHz to 25000MHz can be entered in the above form as a comma delimited list.
+Frequencies outside of the range of observation frequencies (ie extrapolations) will not be reported.</p>
+<h1>How is it done?</h1>
+<p>This calculator performs a cubic spline interpolation of the observation points to estimate the solar flux at other
+frequencies.</p>
+<div align="center">
+<center>
+<table border="2" cellpadding="0" cellspacing="5">
+<caption>Fig 1: Comparison of IPS interpolations with cubic spline interpolation</caption>
+<tr>
+<td><img border="0" src="qsrf01.gif" width="600" height="450" /></td>
+</tr>
+</table>
+</center>
+</div>
+<p>Fig 1 compares the interpolations published by Australia's IPS for its Learmonth observations on 22/08/2007 with a
+cubic spline interpolation. The maximum difference between the IPS interpolation and cubic spline is 0.09dB in this
+sample set.</p>
+<p>IPS does not appear to state how their interpolation is performed, but examination of the above data shows that all
+interpolated values are within 0.5 SFU of linear interpolation of the published observations which are rounded to 1
+SFU, suggesting that the interpolation is a simple linear interpolation between unrounded observations, even in regions
+either side of 1415MHz and 2695MHz where there is likely to be a more gradual change in slope than the linear
+interpolation would suggest.</p>
+<div align="center">
+<center>
+<table border="2" cellpadding="0" cellspacing="5">
+<caption>Fig 2: Comparison of observations and interpolations with Tapping extrapolation</caption>
+<tr>
+<td><img border="0" src="qsrf02.png" width="600" height="450" /></td>
+</tr>
+</table>
+</center>
+</div>
+<p>A method sometimes used for extrapolating solar flux from observations at 2800MHz uses a formula proposed by Tapping
+(1994).</p>
+<p><img border="0" src="tappingformula.png" width="243" height="30" />&nbsp; where S<sub>10</sub> is the 10.7cm solar
+flux, f is the frequency of interest in MHz, &alpha;=0.0002 and &beta;=-0.01.</p>
+<p>Fig 2 compares the measurements and interpolations discussed above and that from Tapping's formula. Tapping's
+extrapolation does not seem a good method of estimating daily solar flux at a frequency of interest from the day's
+2800MHz observations, perhaps it is not intended for this purpose.</p>
+<div align="center">
+<center>
+<table border="2" cellpadding="0" cellspacing="5">
+<caption>Fig 3:</caption>
+<tr>
+<td><img border="0" src="qsrf03.png" width="599" height="450" /></td>
+</tr>
+</table>
+</center>
+</div>
+<p>Fig 3 compares Tapping's formula for estimating 1415MHz solar flux from measured 2695MHz solar flux, with the
+measured 1415MHz solar flux at the Learmonth observatory in 2001. Note the grouping of observations into two clusters,
+the main cluster well below the regression estimate and a smaller cluster above the regression estimate.</p>
+<div align="center">
+<center>
+<table border="2" cellpadding="0" cellspacing="5">
+<caption>Fig 4:</caption>
+<tr>
+<td><img border="0" src="qsrf04.png" width="600" height="433" /></td>
+</tr>
+</table>
+</center>
+</div>
+<p>Fig 4 shows the distribution of error in decibels of the data in Fig&nbsp;3. The clustering pattern noted in Fig 3
+is manifest as a cluster of outliers and extreme values on this chart.</p>
+<div align="center">
+<center>
+<table border="2" cellpadding="0" cellspacing="5" width="417">
+<caption>Table 2: Solar radio spectrum origin</caption>
+<tr>
+<td width="193"><b>Level of Origin</b></td>
+<td align="right" width="80"><b>Freq (MHz)</b></td>
+<td align="right" width="110"><b>Wavelength</b></td>
+</tr>
+<tr>
+<td width="193"><b>Lower Chromosphere</b></td>
+<td align="right" width="80">15400<br />
+8800</td>
+<td align="right" width="110">1.9 cm<br />
+3.4 cm</td>
+</tr>
+<tr>
+<td width="193"><b>Middle Chromosphere</b></td>
+<td align="right" width="80">4995<br />
+2695</td>
+<td align="right" width="110">6.0 cm<br />
+11.1 cm</td>
+</tr>
+<tr>
+<td width="193"><b>Upper Chromosphere</b></td>
+<td align="right" width="80">1415<br />
+610<br />
+410</td>
+<td align="right" width="110">21.2 cm<br />
+49.2 cm<br />
+73.2 cm</td>
+</tr>
+<tr>
+<td width="193"><b>Lower Corona</b></td>
+<td align="right" width="80">&nbsp;245</td>
+<td align="right" width="110">1.2 m</td>
+</tr>
+<tr>
+<td width="193"><b>Upper Corona</b></td>
+<td align="right" width="80">75<br />
+25</td>
+<td align="right" width="110">4.0 m<br />
+12.0 m</td>
+</tr>
+</table>
+</center>
+</div>
+<p>Table 2 shows the origin of solar radio spectrum at the observation frequencies (from NOAA).</p>
+<p>Solar activity can change the emission levels at some origin levels / frequencies / wavelengths differently to
+others. There is weakness is working from the WWV broadcast 'SEC Geophysical Alert' Solar Flux is that it is measured
+at 2800MHz, and cannot be reliably adjusted to other frequencies.</p>
+<p>The observations are fetched from NOAA's &nbsp; <a href=
+"http://www.sec.noaa.gov/ftpdir/lists/radio/rad.txt">http://www.sec.noaa.gov/ftpdir/lists/radio/rad.txt</a> in real
+time, and an interpolation performed for days where there are observations reported for more than four frequencies for
+the selected observatory. Calculations that are outside the frequency range of the observations used for the model are
+flagged as extrapolations, and are ignored.</p>
+<div align="center">
+<center>
+<table border="2" cellpadding="0" cellspacing="5">
+<caption>Fig 5:</caption>
+<tr>
+<td><img border="0" src="qsrf05.gif" width="600" height="450" /></td>
+</tr>
+</table>
+</center>
+</div>
+<p>Fig&nbsp;5 shows the variation of noon quiet sun radio flux from day to day as observed on 1415MHz at Learmonth in
+July / August 2007. The effect of the sun's 27 day rotation cycle is visible in the graph. The variation in solar flux
+is some tenths of a dB from day to day and needs to be considered in high accuracy measurements.</p>
+<div align="center">
+<center>
+<table border="2" cellpadding="0" cellspacing="5">
+<caption>Fig 6</caption>
+<tr>
+<td><img border="0" src="qsrf06.gif" width="621" height="405" /></td>
+</tr>
+</table>
+</center>
+</div>
+<p>&nbsp;Larger variations occur during the 11 year solar cycle, Fig&nbsp;6 shows the variation in observed flux at
+2800Mhz varies over the 11 year solar cycle, some 6dB over the cycle.</p>
+<h1>Links</h1>
+<p><a href="../../software/nfm/index.htm">Noise Figure Meter (NFM) software</a></p>
+<p><a href="http://www.noaa.gov/">NOAA</a></p>
+<p><a href="http://www.setileague.org/articles/g-t.htm">SETI: Determination of G/T</a></p>
+<p><a href="http://en.wikipedia.org/wiki/Spline_interpolation">Wikipedia: spline interpolation</a></p>
+<p>Other <a href="../../software/index.htm">tools</a>.</p>
+<h1>Changes</h1>
+<div align="left">
+<table border="2" cellpadding="0" cellspacing="5">
+  <tbody>
+    <tr>
+      <td><b>Version</b></td>
+      <td><b>Date</b></td>
+      <td><b>Description</b></td>
+    </tr>
+    <tr>
+      <td><b>1.01</b></td>
+      <td>07/02/2009</td>
+      <td>Initial.</td>
+    </tr>
+    <tr>
+      <td><b>1.02</b></td>
+      <td>04/02/2015</td>
+      <td>Added optional date.</td>
+    </tr>
+    <tr>
+      <td><b>1.03</b></td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+    </tr>
+    <tr>
+      <td><b>1.04</b></td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+    </tr>
+    <tr>
+      <td><b>1.05</b></td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+<hr />
+Use at your own risk, not warranted for any purpose. Do not depend on any results without independent verification.
+<!--#include virtual="/phpinc/footer.htm" -->
+</body>

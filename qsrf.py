@@ -1,3 +1,4 @@
+#Copyright: Owen Duffy 2025. All rights reserved.
 import requests
 import re
 from pathlib import PurePath
