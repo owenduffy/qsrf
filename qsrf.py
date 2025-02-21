@@ -37,8 +37,9 @@ for x in args:
   fout.append(float(x))
 fout=np.array(fout)
 
-response=requests.get('https://services.swpc.noaa.gov/text/solar_radio_flux.txt')
-print('HTTP request RC:',response.status_code)
+url='https://services.swpc.noaa.gov/text/solar_radio_flux.txt'
+response=requests.get(url)
+print('HTTP request {} RC: {}'.format(url,response.status_code))
 
 #return an iterator, one item for each line:
 lines_b=response.iter_lines()
