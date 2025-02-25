@@ -9,9 +9,9 @@ This is a Python batch calculator to provide an alternative to the online calcul
 
 The original web page is in the old folder for documentation, but the calculator will not run.
 
-Usage: qsrf [-d datere] [-l] <interpolation MHz freq list blank separated>
-   -d RE to select dates to output ex:  -d ".*Feb 2[1-3]$"
-   -l long output (45 day)
+Usage: qsrf [-d datere] [-l] <interpolation MHz freq list blank separated>  
+   -d RE to select dates to output ex:  -d ".*Feb 2[1-3]$"  
+   -l long output (45 day)  
 
 The work is copyright: Owen Duffy 2025. All rights reserved.
 
