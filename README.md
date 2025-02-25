@@ -1,5 +1,5 @@
-# QSRF - quiet sun radio flux
-Quiet sun radio noise is often used for measurements of radio receiving systems. The radio flux from the quiet sun is a known signal in that it is measured and reported at observatories around the earth, and therefore provides a basis of assessment of radio receiving systems.
+# QSRF - quiet Sun radio flux
+Quiet Sun radio noise is often used for measurements of radio receiving systems. The radio flux from the quiet Sun is a known signal in that it is measured and reported at observatories around the earth, and therefore provides a basis of assessment of radio receiving systems.
 
 ![chart](qsrf01.gif)
 
@@ -8,6 +8,10 @@ This project is a script to calculate interpolated recent solar flux data for am
 This is a Python batch calculator to provide an alternative to the online calculator previosly published at http://owenduffy.net//calc/qsrf/index.htm and no longer online.
 
 The original web page is in the old folder for documentation, but the calculator will not run.
+
+Usage: qsrf [-d datere] [-l] <interpolation MHz freq list blank separated>
+   -d RE to select dates to output ex:  -d ".*Feb 2[1-3]$"
+   -l long output (45 day)
 
 The work is copyright: Owen Duffy 2025. All rights reserved.
 
