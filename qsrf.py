@@ -6,18 +6,20 @@ import numpy as np
 from scipy.interpolate import CubicSpline
 import getopt, sys
 
-ver="v0.02"
+ver="v0.03"
 p=PurePath(sys.argv[0])
 url='https://services.swpc.noaa.gov/text/solar_radio_flux.txt'
 url2='ftp://ftp.swpc.noaa.gov/pub/lists/radio/45day_rad.txt'
+datere='.*'
 
 def usage():
-  print('Usage: '+p.stem+' [-l] <interpolation MHz freq list blank separated>')
+  print('Usage: '+p.stem+' [-d datere] [-l] <interpolation MHz freq list blank separated>')
+  print('   -d RE to select dates to output ex:  -d ".*Feb 2[1-3]$"')
   print('   -l long output (45 day)')
   sys.exit(2)
 
 try:
-  opts, args = getopt.getopt(sys.argv[1:], "hlv", ["help", "output="])
+  opts, args = getopt.getopt(sys.argv[1:], "d:hlv", ["date","help","long","verbose"])
 except getopt.GetoptError as err:
   # print help information and exit:
   print(err)  # will print something like "option -a not recognized"
@@ -26,7 +28,9 @@ except getopt.GetoptError as err:
 output = None
 verbose = False
 for o, a in opts:
-  if o == "-l":
+  if o in ("-d","date"):
+    datere=a
+  if o in ("-l","long"):
     url=url2
   if o == "-v":
     verbose = True
@@ -52,11 +56,22 @@ def getline():
     return 0
   return line.decode("utf-8") #return line terminated with \n
 
+#print header
 line=getline()
 while(line!=0): #while not EOF
+  if(re.match('^\\d{4} \\w{3} \\d{1,2}$',line)):
+    break
   line=line.rstrip()
   print(line)
-  if(re.match('^\\d{4} \\w{3} \\d{1,2}$',line)):
+  line=getline()
+
+while(line!=0): #while not EOF
+  line=line.rstrip()
+  if(re.match('^\\d{4} \\w{3} \\d{1,2}$',line)): #skip to date line
+    if(not re.match(datere,line)): #skip to selected date line
+      line=getline()
+      continue;
+    print(line)
     print('NOAA data:')
     site=[]
     for i in range(7):
@@ -114,9 +129,10 @@ while(line!=0): #while not EOF
     for j,f in enumerate(fout):
       sfns=[-1,-1,-1,-1,-1,-1,-1]
       for i in range(7):
-        if(site[i][2]>1 and f>site[i][0][0]/2 and f<site[i][0][-1]*2 and css[i]!=0):
+        if(site[i][2]>1 and f>0.9*site[i][0][0] and f<1.1*site[i][0][-1] and css[i]!=0):
           sfns[i]=css[i](f)+0
       print('{:6.0f}{:9.0f}{:10.0f}{:10.0f}{:11.0f}{:11.0f}{:10.0f}{:10.0f}'.\
       format(f,sfns[0],sfns[1],sfns[2],sfns[3],sfns[4],sfns[5],sfns[6]))
     print('-----------------------------------------------------------------------------')
   line=getline() #next date
+print('\nUse CTL-C to terminate if necessary (there seems a bug in FTP cleanup.)')
